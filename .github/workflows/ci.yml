@@ -3,10 +3,12 @@ name: CI
 on: push
 
 jobs:
-  deploy:
+  test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: ["18", "20"]
     steps:
-      - name: Deploy
-        env:
-          TOKEN: ${{ secrets.DEPLOY_TOKEN }}
-        run: echo "Deploying"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
