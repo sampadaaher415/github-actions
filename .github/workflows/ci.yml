@@ -1,7 +1,5 @@
 name: CI
-
-on: push
-
+on: [push,pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -10,11 +8,11 @@ jobs:
         node: ["18", "20"]
     steps:
       - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: ${{ matrix.node }}
           cache: "npm"
+      - run: npm ci
+      - run: npm test
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: build
-          path: dist/
+      
